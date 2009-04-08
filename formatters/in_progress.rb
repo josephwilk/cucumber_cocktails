@@ -1,6 +1,6 @@
 module Cucumber
   module Formatter
-    class Inprogress < Progress
+    class InProgress < Progress
      
       FORMATS[:invalid_pass] = Proc.new{ |string| ::Term::ANSIColor.blue(string) }
 
