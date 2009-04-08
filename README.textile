@@ -1,8 +1,11 @@
 h1. Cucumber Cocktails
 
-Some useful:
+Some useful tasks and formatters that I use with Cucumber.
 
-* Rake tasks
-* Formatters
+h2. Formatters
 
-that I have made for Cucumber.
+* InProgress - Mirrors the progress formatter but records any scenarios which passed and reports them in the summary. Intended for use with in-progress feature stream where passing scenarios are failures.
+  
+h2. Rake tasks
+
+* Running two streams of features: in-progress and finished.
