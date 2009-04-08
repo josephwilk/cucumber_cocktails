@@ -9,7 +9,6 @@ Feature: In-progress formatter
     """
     .
     
-    
     (::) Scenarios passing which should be failing or pending (::)
     
     features/sample.feature:8:in `Scenario: pass'
@@ -26,7 +25,6 @@ Feature: In-progress formatter
     """
     F
 
-
     1 scenario
     1 failed step
 
@@ -38,7 +36,6 @@ Feature: In-progress formatter
     Then it should pass with
     """
     P
-
 
     1 scenario
     1 pending step
