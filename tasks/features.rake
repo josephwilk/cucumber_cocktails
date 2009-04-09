@@ -1,8 +1,8 @@
 require 'cucumber/rake/task'
 
-class FeatureFailure < Exception;
+class BuildFailure < Exception;
   def initialize(message = nil)
-    message ||= "Build failed due to feature failures"
+    message ||= "Build failed"
     super(message)
   end
 end;
@@ -19,7 +19,7 @@ namespace :features do
 
   desc "Run in-progress features"
   Cucumber::Rake::Task.new(:in_progress) do |t|
-    t.cucumber_opts = "--format Cucumber::Formatter::InProgress --strict --tags in-progress"
+    t.cucumber_opts = "--require formatters/ --format Cucumber::Formatter::InProgress --strict --tags in-progress"
   end
 end
 
@@ -31,7 +31,7 @@ task :cruise do
   puts
   puts("Finished features had failing steps") unless finished_successful
   puts("In-progress Scenario/s passed when they should fail or be pending") if in_progress_successful
-  raise FeatureFailure if !finished_successful || in_progress_successful
+  raise BuildFailure if !finished_successful || in_progress_successful
 end
 
 def run_in_progress_features
