@@ -5,7 +5,7 @@ Some useful tasks and formatters that I use with Cucumber.
 h2. Formatters
 
 * InProgress - Mirrors the progress formatter but records any scenarios which passed and reports them in the summary. Intended for use with in-progress feature stream where passing scenarios are failures.
-  
+
 h2. Rake tasks
 
 * Running two streams of features: in-progress and finished.
