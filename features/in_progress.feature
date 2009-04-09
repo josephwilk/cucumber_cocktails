@@ -42,3 +42,14 @@ Feature: In-progress formatter
 
     """
       
+  Scenario: running no scenarios
+    When I run cucumber --require ../../formatters/ --require features/step_definitions/ -n --format Cucumber::Formatter::InProgress
+
+    Then it should fail with
+    """
+    
+    
+    0 scenarios
+ 
+    """
+
