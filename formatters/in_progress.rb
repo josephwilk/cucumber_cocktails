@@ -41,9 +41,13 @@ module Cucumber
 
         #When we run 0 scenarios cucumber will pass.
         #We cannot distinguish between a pass with scenarios and a pass with no scenarios.
-        #So we force a run with no scenrios to exit and fail.
-        #The consequnce is this will truncate the end of other consecutive formatters. 
-        Kernel.exit(1)  if  @feature_element_count == 0
+        #So we overide the exit status with fail when there are no scenarios.
+        if @feature_element_count == 0 
+          at_exit do
+            Kernel.exit(1)
+          end
+        end
+          
       end
     end
   end
