@@ -12,27 +12,13 @@ module Cucumber
       end
 
       def visit_feature_element(feature_element)
-        @indent = 2
         super
         
         @passing_scenarios << feature_element if @scenario_passed
         @scenario_passed = true
-        @feature_element_count+=1
+        @feature_element_count += 1
 
         @io.flush
-      end
-
-      def visit_step_name(keyword, step_match, status, source_indent, background)
-        progress(status) unless status == :outline
-      end
-
-      def visit_table_cell_value(value, width, status)
-        progress(status) if (status != :thead) && !@multiline_arg
-      end
-
-      def visit_tags(tags)
-        @tags = tags
-        tags.accept(self)
       end
 
       private
