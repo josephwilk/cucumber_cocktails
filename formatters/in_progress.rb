@@ -20,14 +20,14 @@ module Cucumber
 
         @io.flush
       end
-
-      private
       
-      def progress(status)
-        @scenario_passed = false unless status == :passed
+      def visit_exception(exception, status)
+        @scenario_passed = false
         super
       end
-
+            
+      private
+      
       def print_summary
         unless @passing_scenarios.empty?
           @io.puts format_string("(::) Scenarios passing which should be failing or pending (::)", :invalid_pass)
