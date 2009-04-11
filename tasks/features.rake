@@ -18,8 +18,16 @@ namespace :features do
   end
 
   desc "Run in-progress features"
-  Cucumber::Rake::Task.new(:in_progress) do |t|
-    t.cucumber_opts = "--require formatters/ --format Cucumber::Formatter::InProgress --strict --tags in-progress"
+  task :in_progress do
+    Cucumber::Rake::Task.new(:in_progress_internal) do |t|  
+      t.cucumber_opts = "--require formatters/ --format Cucumber::Formatter::InProgress --strict --tags in-progress"  
+    end
+    
+    begin
+      Rake::Task['in_progress_internal'].invoke
+      raise BuildFailure
+    rescue
+    end
   end
 end
 
@@ -28,10 +36,13 @@ task :cruise do
   finished_successful = run_finished_features
   in_progress_successful = run_in_progress_features
 
-  puts
-  puts("Finished features had failing steps") unless finished_successful
-  puts("In-progress Scenario/s passed when they should fail or be pending") if in_progress_successful
-  raise BuildFailure if !finished_successful || in_progress_successful
+  unless finished_successful && in_progress_successful
+    puts
+    puts("Finished features had failing steps") unless finished_successful
+    puts("In-progress Scenario/s passed when they should fail or be pending") unless in_progress_successful
+    puts
+    raise BuildFailure
+  end
 end
 
 def run_in_progress_features
