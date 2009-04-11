@@ -1,9 +1,10 @@
 module Cucumber
   module Formatter
     class InProgress < Progress
-     
+      FAILURE_CODE = 1
+      SUCCESS_CODE = 0
+      
       FORMATS[:invalid_pass] = Proc.new{ |string| ::Term::ANSIColor.blue(string) }
-
       def initialize(step_mother, io, options)
         super(step_mother, io, options)
         @scenario_passed = true
@@ -39,16 +40,25 @@ module Cucumber
         end
         print_counts
 
-        #When we run 0 scenarios cucumber will pass.
-        #We cannot distinguish between a pass with scenarios and a pass with no scenarios.
-        #So we overide the exit status with fail when there are no scenarios.
-        if @feature_element_count == 0 
-          at_exit do
-            Kernel.exit(1)
-          end
+        if non_passing_steps_occured? || @feature_element_count == 0
+          override_exit_code(SUCCESS_CODE)
+        else
+          override_exit_code(FAILURE_CODE)
         end
-          
       end
+
+      def non_passing_steps_occured?
+        @step_mother.steps(:pending).any? ||
+        @step_mother.steps(:undefined).any? ||
+        @step_mother.steps(:failed).any?
+      end
+
+      def override_exit_code(status_code)
+        at_exit do
+          Kernel.exit(status_code)
+        end
+      end
+      
     end
   end
 end

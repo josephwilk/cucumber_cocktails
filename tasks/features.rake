@@ -18,16 +18,8 @@ namespace :features do
   end
 
   desc "Run in-progress features"
-  task :in_progress do
-    Cucumber::Rake::Task.new(:in_progress_internal) do |t|  
-      t.cucumber_opts = "--require formatters/ --format Cucumber::Formatter::InProgress --strict --tags in-progress"  
-    end
-    
-    begin
-      Rake::Task['in_progress_internal'].invoke
-      raise BuildFailure
-    rescue
-    end
+  Cucumber::Rake::Task.new(:in_progress) do |t|  
+    t.cucumber_opts = "--require formatters/ --format Cucumber::Formatter::InProgress --tags in-progress"  
   end
 end
 

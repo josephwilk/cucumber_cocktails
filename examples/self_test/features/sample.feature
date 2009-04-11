@@ -9,6 +9,10 @@ Feature: Sample
     Given passing
     
   @in-progress
+  Scenario: undefined
+    Given undefined
+
+  @in-progress
   Scenario: pending
     Given pending
   
