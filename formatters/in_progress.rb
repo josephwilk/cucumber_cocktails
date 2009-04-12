@@ -5,6 +5,7 @@ module Cucumber
       SUCCESS_CODE = 0
       
       FORMATS[:invalid_pass] = Proc.new{ |string| ::Term::ANSIColor.blue(string) }
+
       def initialize(step_mother, io, options)
         super(step_mother, io, options)
         @scenario_passed = true
@@ -40,17 +41,11 @@ module Cucumber
         end
         print_counts
 
-        if non_passing_steps_occured? || @feature_element_count == 0
-          override_exit_code(SUCCESS_CODE)
-        else
+        unless @passing_scenarios.empty?
           override_exit_code(FAILURE_CODE)
+        else
+          override_exit_code(SUCCESS_CODE)
         end
-      end
-
-      def non_passing_steps_occured?
-        @step_mother.steps(:pending).any? ||
-        @step_mother.steps(:undefined).any? ||
-        @step_mother.steps(:failed).any?
       end
 
       def override_exit_code(status_code)
