@@ -25,8 +25,8 @@ end
 
 desc "Run complete feature build"
 task :cruise do
-  finished_successful = run_finished_features
-  in_progress_successful = run_in_progress_features
+  finished_successful = run_and_check_for_exception("finished")
+  in_progress_successful = run_and_check_for_exception("in_progress")
 
   unless finished_successful && in_progress_successful
     puts
@@ -37,21 +37,11 @@ task :cruise do
   end
 end
 
-def run_in_progress_features
-  puts "*** In-progress features ***"
+def run_and_check_for_exception(task_name)
+  puts "*** Running #{task_name} features ***"
   begin
-    Rake::Task['features:in_progress'].invoke
-  rescue Exception => in_progress_exception
-    return false
-  end
-  true
-end
-
-def run_finished_features
-  puts "*** Finished features ***"
-  begin
-    Rake::Task['features:finished'].invoke
-  rescue Exception => finished_exception
+    Rake::Task["features:#{task_name}"].invoke
+  rescue Exception => e
     return false
   end
   true
