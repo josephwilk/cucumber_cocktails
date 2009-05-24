@@ -1,3 +1,5 @@
+require 'cucumber/formatter/progress'
+
 module Cucumber
   module Formatter
     class InProgress < Progress
@@ -21,13 +23,13 @@ module Cucumber
         @feature_element_count += 1
 
         @io.flush
-      end
+      end   
       
-      def visit_exception(exception, status)
-        @scenario_passed = false
+      def visit_step_result(keyword, step_match, multiline_arg, status, exception, source_indent, background)
+        @scenario_passed = false if exception
         super
       end
-            
+      
       private
       
       def print_summary
